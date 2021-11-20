@@ -12,7 +12,7 @@ const getUsers = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             data: null,
-            message: "server error",
+            message: "server error" + error,
         })
     }
 
@@ -22,9 +22,9 @@ const isUnique = async (email) => {
     try {
         const user = await Model.User.findAll({ where: { email } });
         if (user.length > 0) {
-            return true;
-        } else {
             return false;
+        } else {
+            return true;
         }
     } catch (error) {
         return true;
@@ -41,7 +41,7 @@ const createUser = async (req, res) => {
             password: hash,
         };
 
-        if (!isUnique(req.body.email)) {
+        if (isUnique(req.body.email)) {
             const saveUser = await Model.User.create(newUser);
             res.status(201).json({
                 data: saveUser,
