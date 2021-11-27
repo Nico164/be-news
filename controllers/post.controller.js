@@ -17,7 +17,7 @@ const createPost = async (req, res) => {
         })
     } catch (error) {
         res.status(500).json({
-            data: null,
+            data: error,
             message: "server error"
         })
     }
