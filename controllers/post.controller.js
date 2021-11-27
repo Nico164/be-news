@@ -23,6 +23,32 @@ const createPost = async (req, res) => {
     }
 }
 
+const updatePost = async (req,res) => {
+    try {
+        const id = req.params.id
+        const title = req.body.title
+    const description = req.body.description
+        const editPost = await Model.Post.update({
+            title, 
+            description,
+        },{
+            where:{
+                id: id,
+                author : req.user.id
+            }
+        })
+
+        res.status(201).json({
+            data: editPost,
+            message: "success"
+        })
+    } catch (error) {
+        res.status(500).json({
+            data: error,
+            message: "server error"
+        })
+    }
+}
 
 
 const removePost = async (req, res) => {
@@ -69,6 +95,23 @@ const getPost = async (req, res) => {
 
 }
 
+const getSinglePost = async (req, res) => {
+    try {
+        const id = req.params.id
+        const postData = await Model.Post.findOne({where: {id : id}})
+        res.status(200).json({
+            data: postData,
+            message: "sucess",
+        })
+    } catch (error) {
+        res.status(500).json({
+            data: null,
+            message: "server error" + error,
+        })
+    }
+
+}
+
 // const file =req.file.path
 // res.status(201).json({
 //     data: file,
@@ -81,4 +124,6 @@ module.exports = {
     createPost,
     removePost,
     getPost,
+    updatePost,
+    getSinglePost,
 }
