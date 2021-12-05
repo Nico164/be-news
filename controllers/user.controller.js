@@ -125,9 +125,30 @@ const loginUser = async (req, res) => {
     }
 }
 
+const userProfile = async (req, res) => {
+    try { 
+        console.log(req.user.id)
+        const id = req.user.id
+        const usersData = await Model.User.findOne({
+            where: {id: id}
+        })
+        res.status(200).json({
+            data: usersData,
+            message: "sucess",
+        })
+    } catch (error) {
+        res.status(500).json({
+            data: null,
+            message: "server error" + error,
+        })
+    }
+
+}
+
 module.exports = {
     getUsers,
     createUser,
     removeUser,
     loginUser,
+    userProfile
 }
