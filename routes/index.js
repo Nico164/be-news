@@ -2,6 +2,7 @@ const { text } = require('express')
 require('dotenv').config()
 const multer = require('multer')
 const nodemailer = require('nodemailer')
+const { getBanner } = require('../controllers/banner.controller')
 const { createPost, removePost, getPost, updatePost, getSinglePost } = require('../controllers/post.controller')
 const { getUsers, createUser, removeUser, loginUser, userProfile } = require('../controllers/user.controller')
 const { checkToken } = require('../middleware/hasLogin.middleware')
@@ -52,5 +53,7 @@ route.post("/posts", checkToken, createPost)
 route.delete("/posts/:id", checkToken, removePost)
 route.put("/posts/:id", checkToken, updatePost)
 route.get("/posts/:id", getSinglePost)
+
+route.get("/banners", getBanner)
 
 module.exports = route
